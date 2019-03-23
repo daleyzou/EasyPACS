@@ -1,25 +1,23 @@
 package org.easy.dao.impl;
 
+import org.easy.dao.AbstractJpaDao;
+import org.easy.dao.EquipmentDao;
+import org.easy.entity.Equipment;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.easy.dao.AbstractJpaDao;
-import org.easy.dao.EquipmentDao;
-import org.easy.entity.Equipment;
-
-import org.springframework.stereotype.Repository;
-
 @Repository
 public class EquipmentDaoImpl extends AbstractJpaDao<Equipment> implements EquipmentDao {
-	
-	@PersistenceContext(unitName = "dbdicom")
-	private EntityManager entityManager;
-	
-	public EquipmentDaoImpl(){
-		super();
-		setClazz(Equipment.class);
-	}
+
+    @PersistenceContext(unitName = "dbdicom")
+    private EntityManager entityManager;
+
+    public EquipmentDaoImpl() {
+        super();
+        setClazz(Equipment.class);
+    }
 	
 	/*@Transactional
 	@Override
@@ -48,17 +46,16 @@ public class EquipmentDaoImpl extends AbstractJpaDao<Equipment> implements Equip
 			return null;
 		}
 	}*/
-	
-	@Override 
-	public Equipment findByPkTBLSeriesID(Long pkTBLSeriesID){
-		
-		try{
-			return entityManager.createQuery("select e from Equipment e  where e.series.pkTBLSeriesID LIKE :pkTBLSeriesID", Equipment.class)
-			.setParameter("pkTBLSeriesID", pkTBLSeriesID)			
-			.getSingleResult();
-		}catch(Exception e){			
-			return null;		
-		}
-	}
+
+    @Override
+    public Equipment findByPkTBLSeriesID(Long pkTBLSeriesID) {
+
+        try {
+            return entityManager.createQuery("select e from Equipment e  where e.series.pkTBLSeriesID LIKE :pkTBLSeriesID", Equipment.class)
+                    .setParameter("pkTBLSeriesID", pkTBLSeriesID).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
