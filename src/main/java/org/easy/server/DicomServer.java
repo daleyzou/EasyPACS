@@ -44,6 +44,13 @@ public class DicomServer {
 
     private int status;
 
+    /**
+     * DicomServer
+     * @description 不做操作，这里全部使用默认实现
+     * @author zoudaifa
+     * @date 2019/3/24 16:36
+     * @version 1.0.0
+     */
     private AssociationHandler associationHandler = new AssociationHandler() {
 
         @Override
@@ -54,7 +61,6 @@ public class DicomServer {
             if (as != null) {
                 LOG.info("makeAAssociateAC: {}  Associate State: {}  Associate State Name: {}", as.toString(), st, st.name());
                 try {
-                    //eventBus.post(new NewLogEvent(as.toString(),st.name(),as.getSocket().getInetAddress().getHostAddress(), null, null,null,null,null,null,null,null));
                 } catch (Exception e) {
                     LOG.error(e.getMessage());
                 }
@@ -86,37 +92,20 @@ public class DicomServer {
 
             if (as != null && st == State.Sta13) {
                 LOG.info("Assocation Released and Closed: {} Name: {}", as.getState(), as.toString());
-
-                try {
-                    //eventBus.post(new NewLogEvent(as.toString(),st.name(),as.getSocket().getInetAddress().getHostAddress(), null, null, null, null,null,null,null,null));
-                } catch (Exception e) {
-                    LOG.error(e.getMessage());
-                }
             } else {
                 LOG.info("Association Closed");
             }
-
             super.onClose(as);
         }
     };
 
-    public DicomServer() throws IOException {
+    public DicomServer() {
         device.setDimseRQHandler(createServiceRegistry());
         device.addConnection(conn);
         device.addApplicationEntity(ae);
         device.setAssociationHandler(associationHandler);
         ae.setAssociationAcceptor(true);
         ae.addConnection(conn);
-    }
-
-    private static Attributes parse(File file) throws IOException {
-        DicomInputStream in = new DicomInputStream(file);
-        try {
-            in.setIncludeBulkData(IncludeBulkData.NO);
-            return in.readDataset(-1, Tag.PixelData);
-        } finally {
-            SafeClose.close(in);
-        }
     }
 
     private static void deleteFile(Association as, File file) {
@@ -134,6 +123,19 @@ public class DicomServer {
         conn.setMaxOpsPerformed(0);
     }
 
+    /**
+     * DicomServer
+     * @description 初始化文件服务
+     * @param aeHost
+     * @param aePort
+     * @param aeTitle
+     * @param storageDirectory
+     * @param eventBus
+     * @return
+     * @author zoudaifa
+     * @date 2019/3/24 16:44
+     * @version 1.0.0
+     */
     public static DicomServer init(String aeHost, int aePort, String aeTitle, String storageDirectory, EventBus eventBus) {
         LOG.info("Bind to: " + aeTitle + "@" + aeHost + ":" + aePort + "; storage: " + storageDirectory);
 
@@ -161,12 +163,10 @@ public class DicomServer {
             ds.device.setScheduledExecutor(scheduledExecutorService);
             ds.device.setExecutor(executorService);
             ds.device.bindConnections();
-
         } catch (Exception e) {
             LOG.error("dicomserver: {}", e.getMessage());
             e.printStackTrace();
         }
-
         return ds;
     }
 
@@ -199,6 +199,15 @@ public class DicomServer {
         this.status = status;
     }
 
+    /**
+     * DicomServer
+     * @description https://github.com/dcm4che/dcm4chee-arc-light/blob/5f49fa72d08f5400e0952299ddeaa6511d138748/dcm4chee-arc-store-scp/src/main/java/org/dcm4chee/arc/store/scp/CStoreSCP.java
+     * @param
+     * @return
+     * @author zoudaifa
+     * @date 2019/3/24 16:31
+     * @version 1.0.0
+     */
     private final class CStoreSCPImpl extends BasicCStoreSCP {
 
         CStoreSCPImpl() {
@@ -223,7 +232,6 @@ public class DicomServer {
             try {
                 LOG.info("as: {}", as);
                 storeTo(as, as.createFileMetaInformation(iuid, cuid, tsuid), data, file);
-
                 if (!file.exists()) {
                     LOG.error(
                             "File {} does not exists! Connection Details--> ipAddress: {}  associationName: {}  sopclassuid: {}  sopinstanceuid: {} transfersyntax: {}",
@@ -231,40 +239,18 @@ public class DicomServer {
                     return;
                 }
 
+                // 发布接收到新文件的事件
                 eventBus.post(new NewFileEvent(file));
-
-                //let's parse the files
-                /*Attributes attrs = parse(file);
-                if(attrs != null){
-                	String studyiuid = attrs.getString(Tag.StudyInstanceUID);
-	         		String patientID = attrs.getString(Tag.PatientID);
-	         		patientID = (patientID == null || patientID.length() == 0) ? "<UNKNOWN>" : patientID;
-	         		Long projectID = -1L;
-	         		String patientName = attrs.getString(Tag.PatientName);
-	         		String institutionName = attrs.getString(Tag.InstitutionName);
-	         		String uniqueID = file.getName();
-	         		Date studyDate =  attrs.getDate(Tag.StudyDate);
-	         		Date studyTime =  attrs.getDate(Tag.StudyTime);
-
-	         		String studyDateTime = (studyDate != null && studyTime != null)?new SimpleDateFormat("MM-dd-yyyy").format(studyDate)+" "+new SimpleDateFormat("HH-mm-ss").format(studyTime):"01-01-1901 01-01-01";
-
-
-
-                	//eventBus.post(new NewLogEvent(as.toString(), "IMAGE_RECEIVED", ipAddress, studyDateTime, projectID, patientID, patientName, null, studyiuid, institutionName, uniqueID));
-                	//eventBus.post(new NewFileEvent(file, ipAddress, studyiuid, iuid, cuid, associationName));
-
-                }else{
-                	LOG.error("File Name {} could not be parsed!",file.getName());
-                }*/
-
             } catch (EOFException e) {
-                //deleteFile(as, file); //broken file, just remove...
+                // 它虽然是异常，但其实是正常运行结束的标志。
+                // EOF表示读到了文件尾（ String str = dis.readUTF(); ，
+                // 客户端已经断开，后面已经没有内容可以读了），发送结束自然连接也就断开了。
                 LOG.error("Dicom Store EOFException: " + e.getMessage());
             } catch (Exception e) {
-                deleteFile(as, file); //broken file, just remove...
+                //broken file, just remove...
+                deleteFile(as, file);
                 LOG.error("Dicom Store Exception: " + e.getMessage());
             }
-
         }
     }
 }

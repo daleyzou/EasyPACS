@@ -32,8 +32,6 @@ import java.util.Map;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan
-@EnableAutoConfiguration
 @EnableConfigurationProperties
 @EnableJpaRepositories(basePackages = { "org.easy.dao" }) // The package where dao classes reside
 @PropertySource("classpath:application.properties")
@@ -48,7 +46,7 @@ public class Application {
         app.setWebEnvironment(true);
         app.run(args);
 
-        LOG.info("Welcome to EasyPACS!");
+        LOG.info("Welcome to Hospital PACS Server!");
     }
 
     /************************** Handler for incoming files works with asynchronous event bus initiated by the DicomServer ****************************/
@@ -82,22 +80,23 @@ public class Application {
     }
 
     /************************************************** Database JPA and Hibernate Settings ********************************************************/
-    @Bean //Creating and registering in spring context an entityManager
+    //Creating and registering in spring context an entityManager
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(primaryDataSource());
         em.setPersistenceUnitName("dbdicom");
         // 设置扫描 @Entity 的实体类
         em.setPackagesToScan("org.easy.entity");
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter(); // JPA implementation
+        // JPA implementation
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-
         return em;
     }
 
     @Bean
     @Primary //configure the primary database
-    @ConfigurationProperties(prefix = "datasource.primary")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
     }

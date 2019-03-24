@@ -12,7 +12,6 @@ import org.easy.entity.Instance;
 import org.easy.entity.Patient;
 import org.easy.entity.Series;
 import org.easy.entity.Study;
-import org.easy.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,17 +135,27 @@ public class HomeController {
             /********************************************************* TEMP IMAGE FILE CREATION *****************************************************************/
             Dcm2Jpg dcm2Jpg = null;
             try {
-                dcm2Jpg = new Dcm2Jpg();// Dcm2Jpg isn't thread safe (due to ImageIO), so need to create a new instance each thread...
-                dcm2Jpg.initImageWriter("JPEG", "jpeg", null, null, null); // default JPEG writer class, compressionType, and quality
-                String newfilename =
-                        FilenameUtils.removeExtension(dicomFile.getName()) + JPG_EXT; //remove the .dcm and  assign a JPG extension
-                tempImage = new java.io.File(pacsImageStoragePath, newfilename); //create the temporary image file instance
-                dcm2Jpg.convert(dicomFile, tempImage);//save the new jpeg into the .img temp folder
+                // 每一次都需要创建一个实例，因为 Dcm2Jpg 线程不安全
+                dcm2Jpg = new Dcm2Jpg();
+                // default JPEG writer class, compressionType, and quality
+                dcm2Jpg.initImageWriter("JPEG", "jpeg", null, null, null);
+                //remove the .dcm and  assign a JPG extension
+                String newfilename = FilenameUtils.removeExtension(dicomFile.getName()) + JPG_EXT;
+                //create the temporary image file instance
+                tempImage = new java.io.File(pacsImageStoragePath, newfilename);
+
+                // 如果文件不存在，就进行文件转换
+                if (!tempImage.exists()) {
+                    //save the new jpeg into the .img temp folder
+                    dcm2Jpg.convert(dicomFile, tempImage);
+                }
+
                 if (!tempImage.exists())
-                    throw new Exception(); //if not exists, throw exception to log and return back
+                    // 文件不存在
+                    throw new Exception();
 
             } catch (Exception e) {
-                LOG.error("failed convert {} to jpeg... Exception: {}", dicomFile, e.getMessage()); // shouldn't care...
+                LOG.error("failed convert {} to jpeg... Exception: {}", dicomFile, e.getMessage());
             }
             /********************************************************** END OF TEMP FILE CREATION ***************************************************************/
 
@@ -203,13 +212,17 @@ public class HomeController {
 
                 //keep constant size for now
                 Dimension screenSize = new Dimension(1000, 800);
-                if (width >= MAX_IMAGE_WIDTH || height >= MAX_IMAGE_HEIGHT) {
-                    Dimension imgSize = new Dimension(width, height);
-                    Dimension boundary = new Dimension(MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT);
-                    newImageSize = Utils.getScaledDimension(imgSize, boundary);
-                    width = newImageSize.width;
-                    height = newImageSize.height;
-                }
+                //                if (width >= MAX_IMAGE_WIDTH || height >= MAX_IMAGE_HEIGHT) {
+                //                    Dimension imgSize = new Dimension(width, height);
+                //                    Dimension boundary = new Dimension(MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT);
+                //                    newImageSize = Utils.getScaledDimension(imgSize, boundary);
+                //                    width = newImageSize.width;
+                //                    height = newImageSize.height;
+                //                }
+
+                // 设置显示的图片的宽度和高度
+                width = 512;
+                height = 512;
 
                 LOG.debug("Screen width:" + screenSize.width + "  Screen Height:" + screenSize.height);
                 LOG.debug("Image width:" + width + " Image height:" + height);

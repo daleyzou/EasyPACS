@@ -37,9 +37,7 @@ public class ActiveDicoms {
         StringBuffer buffer = new StringBuffer();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             buffer.append(entry.getValue());
-            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
-
         return buffer.toString();
     }
 }
