@@ -2,6 +2,7 @@ package org.easy.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ public abstract class AbstractJpaDao<T extends Serializable> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractJpaDao.class);
 
-    @PersistenceContext(unitName = "dbdicom")
+    @Autowired
     EntityManager entityManager;
 
     private Class<T> clazz;

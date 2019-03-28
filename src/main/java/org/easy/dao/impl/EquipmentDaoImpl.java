@@ -3,15 +3,16 @@ package org.easy.dao.impl;
 import org.easy.dao.AbstractJpaDao;
 import org.easy.dao.EquipmentDao;
 import org.easy.entity.Equipment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Repository
 public class EquipmentDaoImpl extends AbstractJpaDao<Equipment> implements EquipmentDao {
 
-    @PersistenceContext(unitName = "dbdicom")
+    //    @PersistenceContext(unitName = "dbdicom")
+    @Autowired
     private EntityManager entityManager;
 
     public EquipmentDaoImpl() {

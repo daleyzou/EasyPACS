@@ -35,7 +35,8 @@ public class DBServiceImpl implements DBService {
     @Autowired
     EquipmentDao equipmentDao;
 
-    @PersistenceContext(unitName = "dbdicom")
+//    @PersistenceContext(unitName = "dbdicom")
+    @Autowired
     private EntityManager entityManager;
 
     @Autowired

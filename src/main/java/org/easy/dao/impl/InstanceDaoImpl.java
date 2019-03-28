@@ -3,16 +3,17 @@ package org.easy.dao.impl;
 import org.easy.dao.AbstractJpaDao;
 import org.easy.dao.InstanceDao;
 import org.easy.entity.Instance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class InstanceDaoImpl extends AbstractJpaDao<Instance> implements InstanceDao {
 
-    @PersistenceContext(unitName = "dbdicom")
+    //    @PersistenceContext(unitName = "dbdicom")
+    @Autowired
     private EntityManager entityManager;
 
     public InstanceDaoImpl() {

@@ -3,6 +3,7 @@ package org.easy.dao.impl;
 import org.easy.dao.AbstractJpaDao;
 import org.easy.dao.SeriesDao;
 import org.easy.entity.Series;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,8 @@ import java.util.List;
 @Repository
 public class SeriesDaoImpl extends AbstractJpaDao<Series> implements SeriesDao {
 
-    @PersistenceContext(unitName = "dbdicom")
+//    @PersistenceContext(unitName = "dbdicom")
+    @Autowired
     private EntityManager entityManager;
 
     public SeriesDaoImpl() {

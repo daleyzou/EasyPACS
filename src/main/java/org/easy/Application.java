@@ -10,25 +10,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+//import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 
 @SpringBootApplication
 @Configuration
@@ -41,10 +35,12 @@ public class Application {
 
     public static void main(String[] args) {
 
-        SpringApplication app = new SpringApplication(Application.class);
-        app.setShowBanner(false);
-        app.setWebEnvironment(true);
-        app.run(args);
+//        SpringApplication app = new SpringApplication(Application.class);
+//        app.setShowBanner(false);
+//        app.setWebEnvironment(true);
+//        app.setWebApplicationType(WebApplicationType.SERVLET);
+//        app.run(args);
+        SpringApplication.run(Application.class, args);
 
         LOG.info("Welcome to Hospital PACS Server!");
     }
@@ -81,32 +77,32 @@ public class Application {
 
     /************************************************** Database JPA and Hibernate Settings ********************************************************/
     //Creating and registering in spring context an entityManager
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(primaryDataSource());
-        em.setPersistenceUnitName("dbdicom");
-        // 设置扫描 @Entity 的实体类
-        em.setPackagesToScan("org.easy.entity");
-        // JPA implementation
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        return em;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+////        em.setDataSource(primaryDataSource());
+//        em.setPersistenceUnitName("dbdicom");
+//        // 设置扫描 @Entity 的实体类
+//        em.setPackagesToScan("org.easy.entity");
+//        // JPA implementation
+//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        em.setJpaVendorAdapter(vendorAdapter);
+//        return em;
+//    }
 
-    @Bean
-    @Primary //configure the primary database
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean //Configuring the transactionManager
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-        return transactionManager;
-    }
+//    @Bean
+//    @Primary //configure the primary database
+//    @ConfigurationProperties(prefix = "spring.datasource")
+//    public DataSource primaryDataSource() {
+//        return DataSourceBuilder.create().build();
+//    }
+////
+//    @Bean //Configuring the transactionManager
+//    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(emf);
+//        return transactionManager;
+//    }
 
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
