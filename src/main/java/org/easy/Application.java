@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -26,7 +25,6 @@ import java.util.Map;
 
 @SpringBootApplication
 @Configuration
-@EnableConfigurationProperties
 @EnableJpaRepositories(basePackages = { "org.easy.dao" }) // The package where dao classes reside
 @PropertySource("classpath:application.properties")
 public class Application {

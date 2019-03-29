@@ -1,23 +1,22 @@
 package org.easy;
 
-import java.io.File;
-import java.io.IOException;
-
 import junit.framework.TestCase;
-
 import org.dcm4che3.tool.dcm2jpg.Dcm2Jpg;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationTest.class)
-@WebAppConfiguration
+import java.io.File;
+import java.io.IOException;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@PropertySource("classpath:application.properties")
 public class Dcm2JpegTest extends TestCase{
 
 	private static final Logger LOG = LoggerFactory.getLogger(Dcm2JpegTest.class);

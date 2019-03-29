@@ -1,49 +1,37 @@
 package org.easy;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
 import org.easy.handler.IncomingFileHandler;
 import org.easy.server.DicomServer;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.google.common.eventbus.AsyncEventBus;
-import com.google.common.eventbus.EventBus;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 
-@Configuration
-@ComponentScan
-@EnableAutoConfiguration
-@EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"org.easy.dao"}) // The package where dao classes reside
-@SpringBootApplication
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @PropertySource("classpath:application.properties")
 public class ApplicationTest {
 	
@@ -52,8 +40,6 @@ public class ApplicationTest {
 	public static void main(String[] args) {
         
         SpringApplication app = new SpringApplication(Application.class);
-        app.setShowBanner(false);
-        app.setWebEnvironment(true);
         app.run(args);
         
         LOG.info("Welcome to EasyPACS!");
@@ -105,7 +91,7 @@ public class ApplicationTest {
     @Primary //configure the primary database
     @ConfigurationProperties(prefix="datasource.primary")
     public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
+        return null;
     }
     
     @Bean //Configuring the transactionManager
