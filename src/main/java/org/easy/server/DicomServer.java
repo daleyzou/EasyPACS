@@ -4,8 +4,6 @@ import com.google.common.eventbus.EventBus;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.VR;
-import org.dcm4che3.io.DicomInputStream;
-import org.dcm4che3.io.DicomInputStream.IncludeBulkData;
 import org.dcm4che3.io.DicomOutputStream;
 import org.dcm4che3.net.*;
 import org.dcm4che3.net.pdu.AAssociateAC;
@@ -158,6 +156,7 @@ public class DicomServer {
 
             ds.setStorageDirectory(new File(storageDirectory));
 
+            // 多线程的方式接受文件
             ExecutorService executorService = Executors.newCachedThreadPool();
             ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
             ds.device.setScheduledExecutor(scheduledExecutorService);

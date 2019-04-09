@@ -11,8 +11,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.jta.JtaTransactionManager;
@@ -23,7 +21,7 @@ import java.util.Map;
 
 /**
  * JpaConfig
- * @description TODO
+ * @description 配置文件类，在这里规定hibernate的断言
  * @author zoudaifa
  * @date 2019年03月25日 9:08
  * @version 1.0.0

@@ -5,8 +5,6 @@
 .metadata
 .gradle
 bin/
-tmp/
-*.tmp
 *.bak
 *.swp
 *~.nib
@@ -186,7 +184,7 @@ pkg/
 *.class
 
 # Mobile Tools for Java (J2ME)
-.mtj.tmp/
+
 
 # Package Files #
 *.jar
@@ -216,4 +214,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# pic and dcm
+*.dcm
+*.jpg
 

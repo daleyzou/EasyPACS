@@ -3,6 +3,7 @@ package org.easy;
 import junit.framework.TestCase;
 import org.easy.dao.EquipmentDao;
 import org.easy.dao.InstanceDao;
+import org.easy.entity.Instance;
 import org.easy.entity.*;
 import org.easy.service.DBService;
 import org.junit.Ignore;
@@ -48,7 +49,7 @@ public class InstanceTest extends TestCase{
 				//print instance
 				LOG.info("instance: {}", instance);				
 				//get series
-				Series series = instance.getSeries();				
+				Series series = instance.getSeries();
 				LOG.info("series: {}", series.toString());			
 				//get study
 				Study study = series.getStudy();				

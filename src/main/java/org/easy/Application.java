@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.HashMap;
@@ -102,11 +101,11 @@ public class Application {
 //        return transactionManager;
 //    }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    /************************************************* End of Database JPA and Hibernate Settings ********************************************************/
+//    @Bean
+//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+//        return new PersistenceExceptionTranslationPostProcessor();
+//    }
+//
+//    /************************************************* End of Database JPA and Hibernate Settings ********************************************************/
 
 }
