@@ -1,4 +1,4 @@
-package org.easy.rest;
+package org.easy.controller;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -12,6 +12,7 @@ import org.easy.entity.Instance;
 import org.easy.entity.Patient;
 import org.easy.entity.Series;
 import org.easy.entity.Study;
+import org.easy.rest.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

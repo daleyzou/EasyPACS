@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Service
 public class DBServiceImpl implements DBService {
@@ -152,7 +151,7 @@ public class DBServiceImpl implements DBService {
         return instance;
     }
 
-    // apply dicom logic; patient -> Nxstudy -> Nxseries -> Nxinstance
+    // apply dicom logic; patient -> study -> series -> instance
     @Transactional
     @Override
     public void buildEntities(DicomReader reader) {
