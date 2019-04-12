@@ -25,6 +25,17 @@ public interface CountService {
      */
     void moveJpgToDir(Long pkTBLPatientID);
 
+    /**
+     * CountService
+     * @description 调用Python程序，分割图片，识别出图片中的心脏部位
+     * @param
+     * @return
+     * @author zoudaifa
+     * @date 2019/4/12 11:40
+     * @version 1.0.0
+     */
+    void splitPicture();
+
 //    // 将计算后得到的左心室面积存入instance的对应字段，patient表有一个字段用于标识是否已经计算射血分数
 //    void saveData();
 //
