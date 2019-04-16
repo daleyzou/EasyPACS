@@ -76,7 +76,8 @@ public class DicomEntityBuilder {
     public static Instance newInstance(Date acquisitionDateTime, Date contentDateTime, Integer exposureTime, String imageOrientation,
             String imagePosition, String imageType, Integer instanceNumber, String kvp, String mediaStorageSopInstanceUID,
             String patientOrientation, Float pixelSpacing, Float sliceLocation, Float sliceThickness, String sopClassUID,
-            String sopInstanceUID, String transferSyntaxUID, String windowCenter, String windowWidth, Integer xrayTubeCurrent) {
+            String sopInstanceUID, String transferSyntaxUID, String windowCenter, String windowWidth, Integer xrayTubeCurrent,
+            Float spacingBetweenSlices) {
 
         Instance instance = new Instance();
         instance.setAcquisitionDateTime(acquisitionDateTime);
@@ -98,6 +99,7 @@ public class DicomEntityBuilder {
         instance.setWindowCenter(windowCenter);
         instance.setWindowWidth(windowWidth);
         instance.setXrayTubeCurrent(xrayTubeCurrent);
+        instance.setSpacingBetweenSlices(spacingBetweenSlices);
 
         return instance;
     }

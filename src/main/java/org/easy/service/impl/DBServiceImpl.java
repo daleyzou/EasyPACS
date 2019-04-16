@@ -132,13 +132,17 @@ public class DBServiceImpl implements DBService {
         //check first if instance exists
         Instance instance = instanceDao.findBySopInstanceUID(reader.getSOPInstanceUID());
         if (instance == null) {//let's create new instance along with dependent objects
+
+            // 计算掉了，还需要计算 spacingBetweenSlices
+
+
             instance = DicomEntityBuilder
                     .newInstance(reader.getAcquisitionDateTime(), reader.getContentDateTime(), reader.getExposureTime(),
                             reader.getImageOrientation(), reader.getImagePosition(), reader.getImageType(), reader.getInstanceNumber(),
                             reader.getKvp(), reader.getMediaStorageSopInstanceUID(), reader.getPatientOrientation(),
                             reader.getPixelSpacing(), reader.getSliceLocation(), reader.getSliceThickness(), reader.getSopClassUID(),
                             reader.getSOPInstanceUID(), reader.getTransferSyntaxUID(), reader.getWindowCenter(), reader.getWindowWidth(),
-                            reader.getXrayTubeCurrent());
+                            reader.getXrayTubeCurrent(), reader.getSpacingBetweenSlices());
             instance.setSeries(series);
             instanceDao.save(instance);
             instance = instanceDao.findBySopInstanceUID(reader.getSOPInstanceUID());

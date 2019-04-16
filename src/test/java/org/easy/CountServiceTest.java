@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * CountServiceTest
  * @description TODO
- * @author zoudaifa
+ * @author daleyzou
  * @date 2019年04月11日 9:28
  * @version 1.0.0
  */
@@ -33,4 +33,6 @@ public class CountServiceTest {
     public void testConvertAndMove(){
         countService.moveJpgToDir(new Long(1));
     }
+
+
 }

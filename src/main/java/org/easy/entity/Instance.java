@@ -65,6 +65,9 @@ public class Instance implements Serializable {
     @Column(name = "sliceLocation")
     private Float sliceLocation;
 
+    @Column(name = "spacingBetweenSlices")
+    private Float spacingBetweenSlices;
+
     @Column(name = "windowCenter", length = 40)
     private String windowCenter;
 
@@ -291,6 +294,14 @@ public class Instance implements Serializable {
 
     public void setSeries(Series param) {
         this.series = param;
+    }
+
+    public Float getSpacingBetweenSlices() {
+        return spacingBetweenSlices;
+    }
+
+    public void setSpacingBetweenSlices(Float spacingBetweenSlices) {
+        this.spacingBetweenSlices = spacingBetweenSlices;
     }
 
     @Override

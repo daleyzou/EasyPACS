@@ -223,6 +223,10 @@ public class DicomReader {
         return this.attr.getDate(Tag.ContentDateAndTime);
     }
 
+    public Float getSpacingBetweenSlices() {
+        return this.attr.getFloat(Tag.SpacingBetweenSlices, 0);
+    }
+
     public Integer getExposureTime() {
         return this.attr.getInt(Tag.ExposureTime, 0);
     }
